@@ -1,0 +1,35 @@
+{
+  "name": "vue-oidc-context",
+  "private": false,
+  "version": "0.0.11",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "build:types": "vue-tsc --project tsconfig.build-types.json --outDir dist/types",
+    "preview": "vite preview"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vue-oidc-context.umd.js",
+  "module": "./dist/vue-oidc-context.es.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "vue": "^3.4.21"
+  },
+  "peerDependencies": {
+    "@vueuse/core": "10.9.0",
+    "oidc-client-ts": "3.0.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "11.1.6",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "path": "0.12.7",
+    "tslib": "2.6.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "3.9.1",
+    "vue-tsc": "^2.0.6"
+  }
+}
