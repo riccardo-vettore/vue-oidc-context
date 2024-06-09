@@ -3,28 +3,32 @@
  */
 export const hasAuthParams = (location = window.location): boolean => {
     // response_mode: query
-    let searchParams = new URLSearchParams(location.search);
-    if ((searchParams.get("code") || searchParams.get("error")) &&
+    let searchParams = new URLSearchParams(location.search)
+    if ((
+            searchParams.get("code") || searchParams.get("error")
+        ) &&
         searchParams.get("state")) {
-        return true;
+        return true
     }
 
     // response_mode: fragment
-    searchParams = new URLSearchParams(location.hash.replace("#", "?"));
-    if ((searchParams.get("code") || searchParams.get("error")) &&
+    searchParams = new URLSearchParams(location.hash.replace("#", "?"))
+    if ((
+            searchParams.get("code") || searchParams.get("error")
+        ) &&
         searchParams.get("state")) {
-        return true;
+        return true
     }
 
-    return false;
-};
+    return false
+}
 
 const normalizeErrorFn = (fallbackMessage: string) => (error: unknown): Error => {
     if (error instanceof Error) {
-        return error;
+        return error
     }
-    return new Error(fallbackMessage);
-};
+    return new Error(fallbackMessage)
+}
 
-export const signinError = normalizeErrorFn("Sign-in failed");
-export const signoutError = normalizeErrorFn("Sign-out failed");
+export const signinError = normalizeErrorFn("Sign-in failed")
+export const signoutError = normalizeErrorFn("Sign-out failed")

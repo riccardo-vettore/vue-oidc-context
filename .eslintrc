@@ -1,0 +1,49 @@
+{
+	"extends": [
+		"plugin:vue/vue3-recommended",
+		"plugin:vitest/recommended"
+	],
+	"parser": "vue-eslint-parser",
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser"
+	},
+	"globals": {
+		"process": true,
+		"defineProps": "readonly",
+		"defineEmits": "readonly"
+	},
+	"rules": {
+		// "semi": "off",
+		"sort-imports": "off",
+		"vue/no-restricted-block": "off",
+		// To understand how to handle the cases better
+		"import/named": "off",
+		"@typescript-eslint/no-empty-function": "off",
+		"import/export": "off",
+
+		// Shouldn't be off, but for the moment I want to just to align
+		// the eslint config, fix this ASAP
+		"vue/valid-define-props": "off",
+
+		"vue/no-export-in-script-setup": "off",
+		"vue/multi-word-component-names": "off",
+		"indent": ["error", "tab", { "SwitchCase": 1 }],
+		"vue/html-indent": [
+			"error",
+			"tab",
+			{
+				"attribute": 1,
+				"baseIndent": 1,
+				"closeBracket": 0,
+				"alignAttributesVertically": true,
+				"ignores": []
+			}
+		],
+		"vue/require-default-prop": "off",
+		"vue/no-mutating-props": ["error", {
+			"shallowOnly": true
+		}],
+		// Remove jest in @thorn/eslint-config-base
+		"jest/no-deprecated-functions": "off"
+	}
+}
