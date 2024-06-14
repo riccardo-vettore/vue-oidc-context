@@ -118,7 +118,7 @@ Use the `useAuth` component in your components to access authentication state
 
 You **must** provide an implementation of `onSigninCallback` to `oidcConfig` to remove the payload from the URL upon successful login. Otherwise if you refresh the page and the payload is still there, `signinSilent` - which handles renewing your token - won't work.
 
-A working implementation is already in the code [here](https://eu-west-1.console.aws.amazon.com/codesuite/codecommit/repositories/vue-oidc/browse/refs/heads/feature/PAC-1386/--/src/AuthProvider.ts?region=eu-west-1#:~:text=8,*/).
+A working implementation is already in the code [here](https://github.com/riccardo-vettore/vue-oidc-context/blob/19ce24d0fee26125147534a64d7db6333be77cb1/src/AuthProvider.ts#L8).
 
 
 ### Call a protected API

@@ -2,7 +2,7 @@
 	"name": "vue-oidc-context",
 	"description": "OpenID Connect & OAuth2 authentication using vue context api as state management",
 	"private": false,
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/riccardo-vettore/vue-oidc-context.git"
