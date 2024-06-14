@@ -1,39 +1,40 @@
-import { describe, expect, test, vi } from "vitest";
-import { createWrapper } from "./helpers";
-import { User, UserManager } from "oidc-client-ts";
-import { useAuth } from "../src";
+import {describe, expect, test, vi} from 'vitest';
+import {createWrapper} from './helpers';
+import {User, UserManager} from 'oidc-client-ts';
+import {useAuth} from '../src';
+import {nextTick} from 'vue';
 
 const settingsStub = {
-    authority: "authority",
-    client_id: "client",
-    redirect_uri: "redirect",
+    authority: 'authority',
+    client_id: 'client',
+    redirect_uri: 'redirect',
 };
-const user = {id_token: "__test_user__"} as User;
+const user = {id_token: '__test_user__'} as User;
 
-describe("AuthProvider", () => {
-    test("should signinRedirect when asked", async () => {
+describe('AuthProvider', () => {
+    test('should signinRedirect when asked', async () => {
         const wrapper = createWrapper({...settingsStub});
         setTimeout(async () => {
             const auth = useAuth()
-            expect(auth.state.value.user).toBeUndefined()
+            expect(auth.value.user).toBeUndefined()
 
-            await auth.userManagerContext().signinRedirect()
+            await auth.value.signinRedirect()
 
             expect(UserManager.prototype.signinRedirect).toHaveBeenCalled();
             expect(UserManager.prototype.getUser).toHaveBeenCalled();
         }, 100)
     });
 
-    test("should handle signinCallback success and call onSigninCallback", async () => {
+    test('should handle signinCallback success and call onSigninCallback', async () => {
         // arrange
         const onSigninCallback = vi.fn();
         window.history.pushState(
             {},
             document.title,
-            "/?code=__test_code__&state=__test_state__",
+            '/?code=__test_code__&state=__test_state__',
         );
         expect(window.location.href).toBe(
-            "https://www.example.com/?code=__test_code__&state=__test_state__",
+            'https://www.example.com/?code=__test_code__&state=__test_state__',
         );
 
         const wrapper = createWrapper({...settingsStub, onSigninCallback});
@@ -45,16 +46,16 @@ describe("AuthProvider", () => {
         }, 100)
     });
 
-    test("should handle signinCallback errors and call onSigninCallback", async () => {
+    test('should handle signinCallback errors and call onSigninCallback', async () => {
         // arrange
         const onSigninCallback = vi.fn();
         window.history.pushState(
             {},
             document.title,
-            "/?error=__test_error__&state=__test_state__",
+            '/?error=__test_error__&state=__test_state__',
         );
         expect(window.location.href).toBe(
-            "https://www.example.com/?error=__test_error__&state=__test_state__",
+            'https://www.example.com/?error=__test_error__&state=__test_state__',
         );
 
         const wrapper = createWrapper({...settingsStub, onSigninCallback})
@@ -66,22 +67,22 @@ describe("AuthProvider", () => {
         }, 100)
     });
 
-    test("should handle signoutCallback success and call onSignoutCallback", async () => {
+    test('should handle signoutCallback success and call onSignoutCallback', async () => {
         // arrange
         const onSignoutCallback = vi.fn();
         window.history.pushState(
             {},
             document.title,
-            "/signout-callback",
+            '/signout-callback',
         );
         expect(window.location.pathname).toBe(
-            "/signout-callback",
+            '/signout-callback',
         );
 
         createWrapper({
             ...settingsStub,
-            post_logout_redirect_uri: "https://www.example.com/signout-callback",
-            matchSignoutCallback: () => window.location.pathname === "/signout-callback",
+            post_logout_redirect_uri: 'https://www.example.com/signout-callback',
+            matchSignoutCallback: () => window.location.pathname === '/signout-callback',
             onSignoutCallback,
         });
 
@@ -92,18 +93,18 @@ describe("AuthProvider", () => {
         }, 100)
     });
 
-    test("should signinResourceOwnerCredentials when asked", async () => {
+    test('should signinResourceOwnerCredentials when asked', async () => {
         // arrange
         const wrapper = createWrapper({...settingsStub});
 
         setTimeout(async () => {
-            const {state, userManagerContext} = useAuth()
-            expect(state.value.user).toBeUndefined()
+            const auth = useAuth()
+            expect(auth.value.user).toBeUndefined()
             expect(UserManager.prototype.signinCallback).toHaveBeenCalledTimes(1)
 
-            await userManagerContext().signinResourceOwnerCredentials({
-                username: "username",
-                password: "password",
+            await auth.value.signinResourceOwnerCredentials({
+                username: 'username',
+                password: 'password',
                 skipUserInfo: false,
             })
 
@@ -112,28 +113,28 @@ describe("AuthProvider", () => {
         }, 100)
     });
 
-    test("should handle removeUser and call onRemoveUser", async () => {
+    test('should handle removeUser and call onRemoveUser', async () => {
         const onRemoveUser = vi.fn();
 
         createWrapper({...settingsStub, onRemoveUser});
         setTimeout(async () => {
-            const {removeUser} = useAuth()
-            await removeUser()
+            const auth = useAuth()
+            await auth.value.removeUser()
             expect(onRemoveUser).toHaveBeenCalled()
             expect(UserManager.prototype.removeUser).toHaveBeenCalled()
         }, 100)
     });
 
-    test("should handle signoutSilent", async () => {
+    test('should handle signoutSilent', async () => {
         createWrapper({...settingsStub});
         setTimeout(async () => {
-            const {userManagerContext} = useAuth()
-            await userManagerContext().signoutSilent()
+            const auth = useAuth()
+            await auth.value.signoutSilent()
             expect(UserManager.prototype.signoutSilent).toHaveBeenCalled();
         }, 100)
     });
 
-    test("should get the user", async () => {
+    test('should get the user', async () => {
         const userManager = vi.mocked(
             UserManager.prototype,
         )
@@ -145,14 +146,14 @@ describe("AuthProvider", () => {
         createWrapper({...settingsStub});
 
         setTimeout(async () => {
-            const {state} = useAuth()
+            const auth = useAuth()
             expect(UserManager.prototype.getUser).toHaveBeenCalled()
             expect(UserManager.prototype.signoutSilent).toHaveBeenCalled()
-            expect(state.value.user).toBe(user)
+            expect(auth.value.user).toBe(user)
         }, 100)
     });
 
-    test("should allow passing a custom UserManager", async () => {
+    test('should allow passing a custom UserManager', async () => {
         // arrange
         const customUserManager = new UserManager({...settingsStub});
         customUserManager.signinRedirect = vi
@@ -164,16 +165,16 @@ describe("AuthProvider", () => {
         });
 
         setTimeout(() => {
-            const {state, userManagerContext} = useAuth()
-            expect(state.value.user).toBeUndefined()
-            userManagerContext().signinRedirect()
+            const auth = useAuth()
+            expect(auth.value.user).toBeUndefined()
+            auth.value.signinRedirect()
             expect(UserManager.prototype.signinRedirect).not.toHaveBeenCalled();
             expect(customUserManager.signinRedirect).toHaveBeenCalled();
         }, 100)
     });
 
 
-    test("should throw an error if user manager and custom settings are passed in", async () => {
+    test('should throw an error if user manager and custom settings are passed in', async () => {
         // arrange
         const customUserManager = new UserManager({...settingsStub});
 
@@ -188,16 +189,16 @@ describe("AuthProvider", () => {
         }, 100)
     });
 
-    test("should set isLoading to false after initializing", async () => {
+    test('should set isLoading to false after initializing', async () => {
         const wrapper = createWrapper({...settingsStub});
         setTimeout(() => {
-            const {state, userManagerContext} = useAuth()
-            expect(state.value.isLoading).toBe(true)
-            expect(state.value.isLoading).toBe(false)
+            const auth = useAuth()
+            expect(auth.value.isLoading).toBe(true)
+            expect(auth.value.isLoading).toBe(false)
         }, 100)
     });
 
-    test("should set isLoading to true during a navigation", async () => {
+    test('should set isLoading to true during a navigation', async () => {
         // arrange
         let resolve: (value: User) => void;
         const userManager = vi.mocked(
@@ -210,17 +211,17 @@ describe("AuthProvider", () => {
         );
         const wrapper = createWrapper({...settingsStub})
         setTimeout(() => {
-            const {state, userManagerContext} = useAuth()
-            expect(state.value.isLoading).toBe(false)
-            userManagerContext().signinPopup()
-            expect(state.value.isLoading).toBe(true)
+            const auth = useAuth()
+            expect(auth.value.isLoading).toBe(false)
+            auth.value.signinPopup()
+            expect(auth.value.isLoading).toBe(true)
             resolve({} as User)
-            expect(state.value.isLoading).toBe(false);
+            expect(auth.value.isLoading).toBe(false);
         }, 100)
 
         userManager.signinPopup.mockRestore();
     });
-    test("should set activeNavigator based on the most recent navigation", async () => {
+    test('should set activeNavigator based on the most recent navigation', async () => {
         // arrange
         let resolve: (value: User) => void;
         const userManager = vi.mocked(
@@ -234,12 +235,12 @@ describe("AuthProvider", () => {
         const wrapper = createWrapper({...settingsStub});
 
         setTimeout(() => {
-            const {state, userManagerContext} = useAuth()
-            expect(state.value.activeNavigator).toBe(undefined)
-            userManagerContext().signinPopup()
-            expect(state.value.activeNavigator).toBe("signinPopup")
+            const auth = useAuth()
+            expect(auth.value.activeNavigator).toBe(undefined)
+            auth.value.signinPopup()
+            expect(auth.value.activeNavigator).toBe('signinPopup')
             resolve({} as User)
-            expect(state.value.activeNavigator).toBe(undefined)
+            expect(auth.value.activeNavigator).toBe(undefined)
         }, 100)
 
         userManager.signinPopup.mockRestore()

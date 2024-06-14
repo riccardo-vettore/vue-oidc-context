@@ -1,46 +1,60 @@
 {
-  "name": "vue-oidc-context",
-  "private": false,
-  "version": "0.0.1-beta.1",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "test": "vitest",
-    "test-no-watch": "vitest --watch=false",
-    "preview": "vite preview",
-    "prepare": "husky"
-  },
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/vue-oidc.umd.js",
-  "module": "./dist/vue-oidc.es.js",
-  "types": "./dist/index.d.ts",
-  "peerDependencies": {
-    "oidc-client-ts": ">=3.0.0",
-    "vue": ">=3.0.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-typescript": "11.1.6",
-    "@vitejs/plugin-vue": "^5.0.4",
-    "@vue/test-utils": "2.4.6",
-    "eslint": "9.3.0",
-    "eslint-plugin-vitest": "0.5.4",
-    "eslint-plugin-vue": "9.26.0",
-    "globals": "15.3.0",
-    "husky": "9.0.11",
-    "jsdom": "24.0.0",
-    "node-cmd": "5.0.0",
-    "path": "0.12.7",
-    "semver": "7.6.2",
-    "tslib": "2.6.2",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "vite-plugin-dts": "3.9.1",
-    "vitest": "1.6.0",
-    "vue-tsc": "^2.0.6"
-  }
+	"name": "vue-oidc-context",
+	"description": "OpenID Connect & OAuth2 authentication using vue context api as state management",
+	"private": false,
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/riccardo-vettore/vue-oidc-context.git"
+	},
+	"type": "module",
+	"keywords": [
+		"authentication",
+		"context-api",
+		"oauth2",
+		"oidc",
+		"openid",
+		"OpenID Connect",
+		"vue"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "vue-tsc && vite build",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
+		"test": "vitest",
+		"test-no-watch": "vitest --watch=false",
+		"preview": "vite preview",
+		"prepare": "husky"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/vue-oidc.umd.js",
+	"module": "./dist/vue-oidc.es.js",
+	"types": "./dist/index.d.ts",
+	"peerDependencies": {
+		"oidc-client-ts": ">=3.0.0",
+		"vue": ">=3.0.0"
+	},
+	"devDependencies": {
+		"@rollup/plugin-typescript": "11.1.6",
+		"@vitejs/plugin-vue": "^5.0.4",
+		"@vue/test-utils": "2.4.6",
+		"eslint": "9.3.0",
+		"eslint-plugin-vitest": "0.5.4",
+		"eslint-plugin-vue": "9.26.0",
+		"globals": "15.3.0",
+		"husky": "9.0.11",
+		"jsdom": "24.0.0",
+		"node-cmd": "5.0.0",
+		"path": "0.12.7",
+		"semver": "7.6.2",
+		"tslib": "2.6.2",
+		"typescript": "^5.2.2",
+		"vite": "^5.2.0",
+		"vite-plugin-dts": "3.9.1",
+		"vitest": "1.6.0",
+		"vue-tsc": "^2.0.6"
+	}
 }
